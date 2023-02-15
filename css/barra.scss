@@ -1,0 +1,109 @@
+body {
+    background: #000;
+  }
+  
+  h1 {
+    color: #fff;
+    text-align: center;
+  }
+  
+  .circular-progress {
+    position: relative;
+    margin: auto;
+    &,
+    &:before,
+    &:after {
+       width: 12rem;
+       height: 12rem;
+       border-radius: 50%;
+    }
+    
+    &:before,
+    &:after {
+       position: absolute;
+       top: 0;
+       left: 0;
+       text-align: center;
+    }
+    
+    &:before {
+      line-height: 8rem;
+      padding: .5em;
+      box-sizing: border-box;
+      font-size: 1.8rem;
+    }
+    
+    &:after {
+      line-height: 13rem;
+    }
+  
+  }
+  
+  @function progress ($percent){
+    $deg: $percent/100 * 180;
+    @return #{$deg}deg;
+  }
+  
+  @mixin circular-progress($percent,$skill,$color,$bgcolor){
+    $progress: progress($percent);
+    background: linear-gradient(
+                 0deg,
+                 $color 50%,
+                 rgba($color, .2) 50%
+    );
+    transform: rotate($progress);
+    
+    &:before,
+    &:after {
+       color: $color;
+    }
+    
+    &:before {
+      content: "#{$skill}";
+      background: $bgcolor content-box;
+      transform: rotate(-#{$progress});
+      text-transform: uppercase;
+    }
+    
+    &:after {
+      content: "#{$percent}%";
+      background: linear-gradient(
+                  transparent 50%,
+                  $bgcolor 50%
+      );
+      transform: scale(1.1)  rotate(-#{$progress});
+    }
+  }
+  
+  .html5 {
+    @include circular-progress(
+      70,
+      html5,
+      tomato,
+      #000
+      )
+  }
+  
+  .css3 {
+    @include circular-progress(
+      85,
+      css3,
+      steelblue,
+      #000
+      )
+  }
+  
+  .jscript {
+    @include circular-progress(
+      57,
+      js,
+      orange,
+      #000
+      )
+  }
+  
+  .skills {
+    display: flex;
+    margin-top: 4em;
+    flex-wrap: wrap;
+  }
